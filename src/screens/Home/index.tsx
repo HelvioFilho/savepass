@@ -41,6 +41,10 @@ export function Home() {
 
   function handleFilterLoginData() {
     // Filter results inside data, save with setSearchListData
+    if (searchText !== '') {
+      const result = searchListData.filter((item) => item.service_name === searchText);
+      setSearchListData(result);
+    }
 
   }
 
