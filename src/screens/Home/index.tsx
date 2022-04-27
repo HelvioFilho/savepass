@@ -42,7 +42,7 @@ export function Home() {
   function handleFilterLoginData() {
     // Filter results inside data, save with setSearchListData
     if (searchText !== '') {
-      const result = searchListData.filter((item) => item.service_name === searchText);
+      const result = searchListData.filter((item) => item.service_name.includes(searchText.trim()));
       setSearchListData(result);
     }
 
@@ -52,6 +52,7 @@ export function Home() {
     // Update searchText value
     if (text === '') {
       setSearchListData(data);
+      setSearchText('');
     } else {
       setSearchText(text);
     }
