@@ -13,7 +13,7 @@ export const Container = styled.View<ContainerProps>`
   padding: ${({ hasUserData }) => hasUserData
     ? `${getStatusBarHeight(true) + 16}px  24px 60px 24px`
     : `${getStatusBarHeight(true) + 9}px 0 23px 0`
-  }
+  };
   ${({ hasUserData }) => hasUserData && css`
     justify-content: space-between;
   `}
@@ -22,6 +22,10 @@ export const Container = styled.View<ContainerProps>`
 export const AboutUser = styled.View`
   flex-direction: row;
   align-items: center;
+`;
+
+export const EditAvatar = styled.TouchableOpacity`
+
 `;
 
 export const Avatar = styled.Image`
@@ -35,17 +39,27 @@ export const TextContainer = styled.View`
 `;
 
 export const HelloMessage = styled.Text`
-  font-size: ${RFValue(20)}px;
+  font-size: ${RFValue(18)}px;
   line-height: ${RFValue(26)}px;
+  
   font-family: 'Rubik_300Light';
   color: #ffffff;
 `;
 
 export const BoldText = styled.Text`
-  font-size: ${RFValue(20)}px;
+  font-size: ${RFValue(18)}px;
   line-height: ${RFValue(26)}px;
   font-family: 'Rubik_500Medium';
   color: #ffffff;
+`;
+
+export const PrimaryMessage = styled.View`
+  flex-direction: row;
+  
+`;
+
+export const EditButton = styled.TouchableOpacity`
+flex-direction: row;
 `;
 
 export const SecondaryMessage = styled.Text`

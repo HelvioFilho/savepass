@@ -5,10 +5,13 @@ import { useNavigation } from '@react-navigation/native';
 import {
   Container,
   AboutUser,
+  EditAvatar,
   Avatar,
   TextContainer,
   HelloMessage,
   BoldText,
+  PrimaryMessage,
+  EditButton,
   SecondaryMessage,
   AddButton,
   Icon,
@@ -46,13 +49,30 @@ export function Header({ user }: HeaderProps) {
       {user ? (
         <>
           <AboutUser>
-            <Avatar source={{ uri: user.avatar_url }} />
+            <EditAvatar
+              activeOpacity={0.8}
+              onPress={() => { }}
+            >
+              <Avatar source={{ uri: user.avatar_url }} />
+            </EditAvatar>
 
             <TextContainer>
-              <HelloMessage>
-                Olá, <BoldText>{user.name}</BoldText>
-              </HelloMessage>
-
+              <PrimaryMessage>
+                <HelloMessage>
+                  Olá,
+                </HelloMessage>
+                <EditButton
+                  activeOpacity={0.8}
+                  onPress={() => { }}
+                >
+                  <BoldText> {user.name} </BoldText>
+                  <Icon
+                    name="edit"
+                    color="#FFFFFF"
+                    size={24}
+                  />
+                </EditButton>
+              </PrimaryMessage>
               <SecondaryMessage>
                 Sinta-se seguro aqui
               </SecondaryMessage>
