@@ -1,23 +1,26 @@
 import { Ionicons, Feather } from '@expo/vector-icons';
-import { RFValue } from 'react-native-responsive-fontsize';
+import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 import styled from 'styled-components/native';
 
 export const Container = styled.View`
   flex: 1;
   align-items: center;
 `;
+
 export const ContainerTop = styled.View`
   width: 100%;
-  height: 80%;
+  height: 75%;
   justify-content: space-around;
   align-items: center;
   background-color: #508bfc;
+  padding-top: ${RFPercentage(20)}px;
 `;
 
 export const FieldContainer = styled.View`
   width: 100%;
   justify-content: center;
   align-items: center;
+  margin-bottom: ${RFPercentage(5)}px;
 `;
 
 export const Title = styled.Text`
@@ -25,22 +28,9 @@ export const Title = styled.Text`
   line-height: ${RFValue(26)}px;
   font-family: 'Rubik_300Light';
   color: #ffffff;
-  margin: ${RFValue(8)}px 0 ;
+  margin-bottom: ${RFValue(8)}px;
 `;
-export const NameInput = styled.TextInput`
-  font-size: ${RFValue(15)}px;
-  color: #3D434D;
-  font-family: 'Rubik_400Regular';
-  font-size: 15px;
-  padding: 0 20px;
-  background: #ffffff;
-  width: 80%;
-  height: ${RFValue(40)}px; 
-  border-radius: 5px;
-  border: 1px #e3e4e5;
-  border-right-width: 0;
-  margin-bottom: ${RFValue(10)}px;
-`;
+
 export const Button = styled.TouchableOpacity`
   padding: ${RFValue(10)}px ${RFValue(20)}px;
   background-color: #508bfc;
@@ -51,15 +41,15 @@ export const Button = styled.TouchableOpacity`
   justify-content: center;
   margin-top: ${RFValue(50)}px;
 `;
+
 export const TitleButton = styled.Text`
   font-size: ${RFValue(16)}px;
   font-family: 'Rubik_500Medium';
   color: #ffffff;
   margin-right: ${RFValue(5)}px;
 `;
-export const Icon = styled(Ionicons)`
 
-`;
+export const Icon = styled(Ionicons)``;
 
 export const AddButton = styled.TouchableOpacity`
   width: ${RFValue(60)}px;

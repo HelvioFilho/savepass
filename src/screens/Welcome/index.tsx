@@ -6,7 +6,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Container,
   Title,
-  NameInput,
   Button,
   TitleButton,
   Icon,
@@ -18,10 +17,11 @@ import {
 } from './styles';
 
 import Logo from '../../assets/logo.svg';
-import { Alert, Image, Platform } from 'react-native';
+import { Alert, Platform } from 'react-native';
 import { useForm } from 'react-hook-form';
-import { Input } from '../../components/Form/Input';
 import { InputWelcome } from '../../components/Form/InputWelcome';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
 interface ImageProps {
   uri: string;
@@ -34,6 +34,8 @@ interface DataForm {
 
 export function Welcome() {
   const [image, setImage] = useState(null);
+
+  const { navigate } = useNavigation();
 
   const schema = Yup.object().shape({
     name: Yup
@@ -74,7 +76,14 @@ export function Welcome() {
   }
 
   async function handleRegister(form: Partial<DataForm>) {
-    console.log(form.name);
+    const dataKey = '@savepass:user';
+    const avatar_url = image ? image : `https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=${form.name}&length=1`;
+    const userData = {
+      name: form.name,
+      avatar_url,
+    };
+    await AsyncStorage.setItem(dataKey, JSON.stringify(userData));
+    navigate('Home');
   }
 
   return (
@@ -105,7 +114,6 @@ export function Welcome() {
                 color="#FFFFFF"
                 size={24}
               />
-
             }
           </AddButton>
         </FieldContainer>
