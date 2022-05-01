@@ -21,12 +21,25 @@ interface LoginDataProps {
   password: string;
 }
 
+interface UserProps {
+  name: string;
+  avatar_url: string;
+}
+
 type LoginListDataProps = LoginDataProps[];
 
 export function Home() {
   const [searchText, setSearchText] = useState('');
   const [searchListData, setSearchListData] = useState<LoginListDataProps>([]);
   const [data, setData] = useState<LoginListDataProps>([]);
+  const [user, setUser] = useState<UserProps>();
+
+  async function loadUser() {
+    const dataKeyUser = '@savepass:user';
+    const response = await AsyncStorage.getItem(dataKeyUser);
+    const userData: UserProps = response ? JSON.parse(response) : {};
+    setUser(userData);
+  }
 
   async function loadData() {
     const dataKey = '@savepass:logins';
@@ -59,16 +72,14 @@ export function Home() {
   }
 
   useFocusEffect(useCallback(() => {
+    loadUser();
     loadData();
   }, []));
 
   return (
     <>
       <Header
-        user={{
-          name: 'Rocketseat',
-          avatar_url: 'https://i.ibb.co/ZmFHZDM/rocketseat.jpg'
-        }}
+        user={user}
       />
       <Container>
         <SearchBar
