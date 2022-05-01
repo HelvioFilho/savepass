@@ -17,7 +17,18 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#E5E5E5"
       }
-    }
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Permitir que $(PRODUCT_NAME) acesse suas fotos?",
+          "cameraPermission": "Permitir que $(PRODUCT_NAME) abra a câmera?",
+          "//": "Desativar a permissão do microfone",
+          "microphonePermission": false
+        }
+      ]
+    ]
   },
   "name": "savepass"
 }
