@@ -59,7 +59,8 @@ export const PrimaryMessage = styled.View`
 `;
 
 export const EditButton = styled.TouchableOpacity`
-flex-direction: row;
+  flex-direction: row;
+  align-items: center;
 `;
 
 export const SecondaryMessage = styled.Text`

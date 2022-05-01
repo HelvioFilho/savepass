@@ -69,7 +69,7 @@ export function Header({ user }: HeaderProps) {
                   <Icon
                     name="edit"
                     color="#FFFFFF"
-                    size={24}
+                    size={18}
                   />
                 </EditButton>
               </PrimaryMessage>
