@@ -12,10 +12,11 @@ export const Error = styled.Text`
   font-family: 'Rubik_300Light';
   font-size: ${RFValue(13)}px;
   margin-left: ${RFValue(20)}px;
+  color: yellow;
 `;
 
 export const ErrorColor = styled.Text`
-  color: #E83F5B;
+  
 `;
 export const InputContainer = styled.View`
   flex-direction: row;

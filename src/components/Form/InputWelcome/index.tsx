@@ -38,7 +38,7 @@ export function InputWelcome({
           </InputContainer>
         )}
       />
-      {error && <Error><ErrorColor>*</ErrorColor> {error}</Error>}
+      {error && <Error>* {error}</Error>}
     </Container>
   )
 }
