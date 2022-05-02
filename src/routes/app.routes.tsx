@@ -9,15 +9,20 @@ const {
   Screen
 } = createStackNavigator();
 
-export function AppRoutes() {
+interface RouteProps {
+  mainRoute: boolean;
+}
+
+export function AppRoutes({ mainRoute }: RouteProps) {
   return (
     <Navigator
       screenOptions={{
         headerShown: false
       }}
+      initialRouteName={mainRoute ? 'Home' : 'Welcome'}
     >
-      <Screen name="Welcome" component={Welcome} />
       <Screen name="Home" component={Home} />
+      <Screen name="Welcome" component={Welcome} />
       <Screen name="RegisterLoginData" component={RegisterLoginData} />
     </Navigator>
   );
