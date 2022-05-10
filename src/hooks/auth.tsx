@@ -6,16 +6,16 @@ interface UserProviderProps {
   children: ReactNode;
 }
 
+interface User {
+  name: string;
+  avatar_url: string;
+}
 interface UserContextData {
   userAlreadyExist: boolean;
   user: User;
   loading: boolean;
   getUser(): Promise<void>;
-}
-
-interface User {
-  name: string;
-  avatar_url: string;
+  setUserUpdate(userData: User): Promise<void>;
 }
 
 const UserContext = createContext({} as UserContextData);
@@ -34,7 +34,18 @@ function UserProvider({ children }: UserProviderProps) {
       const userData: User = response ? JSON.parse(response) : {};
       setUser(userData);
     } catch {
-      console.log("Não foi possível recuperar o usuário");
+      console.log("Não foi possível recuperar as informações do usuário!");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function setUserUpdate(userData: User) {
+    try {
+      setLoading(true);
+      await AsyncStorage.setItem(dataKey, JSON.stringify(userData));
+    } catch {
+      console.log("Não foi possível atualizar as informações do usuário!");
     } finally {
       setLoading(false);
     }
@@ -62,7 +73,8 @@ function UserProvider({ children }: UserProviderProps) {
       userAlreadyExist,
       user,
       loading,
-      getUser
+      getUser,
+      setUserUpdate
     }}>
       {children}
     </UserContext.Provider>

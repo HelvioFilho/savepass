@@ -23,10 +23,11 @@ interface HeaderProps {
   user?: {
     name: string;
     avatar_url: string;
-  }
+  },
+  changeImage?: () => void;
 }
 
-export function Header({ user }: HeaderProps) {
+export function Header({ user, changeImage }: HeaderProps) {
   const { navigate, goBack } = useNavigation();
 
   function handleAddPass() {
@@ -51,7 +52,7 @@ export function Header({ user }: HeaderProps) {
           <AboutUser>
             <EditAvatar
               activeOpacity={0.8}
-              onPress={() => { }}
+              onPress={changeImage}
             >
               <Avatar source={{ uri: user.avatar_url }} />
             </EditAvatar>

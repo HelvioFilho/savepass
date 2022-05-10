@@ -20,6 +20,7 @@ export function AppRoutes({ mainRoute }: RouteProps) {
         headerShown: false
       }}
       initialRouteName={mainRoute ? 'Home' : 'Welcome'}
+    // initialRouteName={'Welcome'}
     >
       <Screen name="Home" component={Home} />
       <Screen name="Welcome" component={Welcome} />

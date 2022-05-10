@@ -22,6 +22,7 @@ import { useForm } from 'react-hook-form';
 import { InputWelcome } from '../../components/Form/InputWelcome';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
+import { userRoot } from '../../hooks/auth';
 
 interface ImageProps {
   uri: string;
@@ -35,6 +36,7 @@ interface DataForm {
 export function Welcome() {
   const [image, setImage] = useState(null);
 
+  const { setUserUpdate } = userRoot();
   const { navigate } = useNavigation();
 
   const schema = Yup.object().shape({
@@ -76,13 +78,12 @@ export function Welcome() {
   }
 
   async function handleRegister(form: Partial<DataForm>) {
-    const dataKey = '@savepass:user';
     const avatar_url = image ? image : `https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=${form.name}&length=1`;
     const userData = {
       name: form.name,
       avatar_url,
     };
-    await AsyncStorage.setItem(dataKey, JSON.stringify(userData));
+    await setUserUpdate(userData);
     navigate('Home');
   }
 

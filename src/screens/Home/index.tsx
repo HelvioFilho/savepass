@@ -1,6 +1,8 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
+import * as ImagePicker from 'expo-image-picker';
+import { Alert, Platform } from 'react-native';
 
 import { Header } from '../../components/Header';
 import { SearchBar } from '../../components/SearchBar';
@@ -13,6 +15,7 @@ import {
   TotalPassCount,
   LoginList,
 } from './styles';
+import { userRoot } from '../../hooks/auth';
 
 interface LoginDataProps {
   id: string;
@@ -21,9 +24,9 @@ interface LoginDataProps {
   password: string;
 }
 
-interface UserProps {
-  name: string;
-  avatar_url: string;
+interface ImageProps {
+  uri: string;
+  cancelled: boolean;
 }
 
 type LoginListDataProps = LoginDataProps[];
@@ -32,14 +35,7 @@ export function Home() {
   const [searchText, setSearchText] = useState('');
   const [searchListData, setSearchListData] = useState<LoginListDataProps>([]);
   const [data, setData] = useState<LoginListDataProps>([]);
-  const [user, setUser] = useState<UserProps>();
-
-  async function loadUser() {
-    const dataKeyUser = '@savepass:user';
-    const response = await AsyncStorage.getItem(dataKeyUser);
-    const userData: UserProps = response ? JSON.parse(response) : {};
-    setUser(userData);
-  }
+  const { user, loading, getUser } = userRoot();
 
   async function loadData() {
     const dataKey = '@savepass:logins';
@@ -58,7 +54,6 @@ export function Home() {
       const result = searchListData.filter((item) => item.service_name.includes(searchText.trim()));
       setSearchListData(result);
     }
-
   }
 
   function handleChangeInputText(text: string) {
@@ -71,16 +66,50 @@ export function Home() {
     }
   }
 
+  async function handleChangeImage() {
+    if (Platform.OS !== 'web') {
+      const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (status !== 'granted') {
+        Alert.alert('Atenção', 'Permissão negada');
+      } else {
+        SaveImage();
+      }
+    }
+  }
+
+  async function SaveImage() {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    }) as ImageProps;
+
+    if (!result.cancelled) {
+      // setImage(result.uri);
+    }
+  }
+
   useFocusEffect(useCallback(() => {
-    loadUser();
+    // loadUser();
     loadData();
   }, []));
+
+  useEffect(() => {
+    if (!loading) {
+      if (!user.name) {
+        getUser();
+      }
+    }
+  }, [loading]);
 
   return (
     <>
       <Header
         user={user}
+        changeImage={handleChangeImage}
       />
+
       <Container>
         <SearchBar
           placeholder="Qual senha você procura?"
