@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
-import { Alert, Platform } from 'react-native';
+import { Alert, Platform, Modal } from 'react-native';
 
 import { Header } from '../../components/Header';
 import { SearchBar } from '../../components/SearchBar';
@@ -16,6 +16,7 @@ import {
   LoginList,
 } from './styles';
 import { userRoot } from '../../hooks/auth';
+import { InputModal } from '../../components/InputModal';
 
 interface LoginDataProps {
   id: string;
@@ -24,6 +25,9 @@ interface LoginDataProps {
   password: string;
 }
 
+interface DataForm {
+  name: string;
+}
 interface ImageProps {
   uri: string;
   cancelled: boolean;
@@ -35,6 +39,8 @@ export function Home() {
   const [searchText, setSearchText] = useState('');
   const [searchListData, setSearchListData] = useState<LoginListDataProps>([]);
   const [data, setData] = useState<LoginListDataProps>([]);
+  const [visible, setVisible] = useState(true);
+
   const { user, loading, getUser, setUserUpdate, awaitUser } = userRoot();
 
   async function loadData() {
@@ -96,6 +102,16 @@ export function Home() {
     await AsyncStorage.setItem(dataKey, '');
   }
 
+  async function handleChangeName(form: Partial<DataForm>) {
+    setVisible(false);
+    console.log(form.name);
+    // const userData = {
+    //   name: form.name,
+    //   avatar_url: user.avatar_url
+    // };
+    // await setUserUpdate(userData);
+  }
+
   useFocusEffect(useCallback(() => {
     loadData();
   }, []));
@@ -155,6 +171,14 @@ export function Home() {
             />
           }}
         />
+        <Modal
+          animationType="slide"
+          visible={visible}
+        >
+          <InputModal
+            changeName={handleChangeName}
+          />
+        </Modal>
       </Container>
     </>
   )

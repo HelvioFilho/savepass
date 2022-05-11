@@ -25,9 +25,10 @@ interface HeaderProps {
     avatar_url: string;
   },
   changeImage?: () => void;
+  changeInfo?: () => void;
 }
 
-export function Header({ user, changeImage }: HeaderProps) {
+export function Header({ user, changeImage, changeInfo }: HeaderProps) {
   const { navigate, goBack } = useNavigation();
 
   function handleAddPass() {
@@ -64,7 +65,7 @@ export function Header({ user, changeImage }: HeaderProps) {
                 </HelloMessage>
                 <EditButton
                   activeOpacity={0.8}
-                  onPress={() => { }}
+                  onPress={changeInfo}
                 >
                   <BoldText> {user.name} </BoldText>
                   <Icon

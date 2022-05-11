@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -20,7 +20,7 @@ import Logo from '../../assets/logo.svg';
 import { Alert, Platform } from 'react-native';
 import { useForm } from 'react-hook-form';
 import { InputWelcome } from '../../components/Form/InputWelcome';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { userRoot } from '../../hooks/auth';
 
 interface ImageProps {
