@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -20,8 +20,7 @@ import Logo from '../../assets/logo.svg';
 import { Alert, Platform } from 'react-native';
 import { useForm } from 'react-hook-form';
 import { InputWelcome } from '../../components/Form/InputWelcome';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { userRoot } from '../../hooks/auth';
 
 interface ImageProps {
@@ -35,8 +34,7 @@ interface DataForm {
 
 export function Welcome() {
   const [image, setImage] = useState(null);
-
-  const { setUserUpdate } = userRoot();
+  const { setUserUpdate, awaitUser } = userRoot();
   const { navigate } = useNavigation();
 
   const schema = Yup.object().shape({
@@ -84,8 +82,13 @@ export function Welcome() {
       avatar_url,
     };
     await setUserUpdate(userData);
-    navigate('Home');
   }
+
+  useEffect(() => {
+    if (!awaitUser) {
+      navigate('Home');
+    }
+  }, [awaitUser]);
 
   return (
     <Container>

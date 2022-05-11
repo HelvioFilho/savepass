@@ -14,6 +14,7 @@ interface UserContextData {
   userAlreadyExist: boolean;
   user: User;
   loading: boolean;
+  awaitUser: boolean;
   getUser(): Promise<void>;
   setUserUpdate(userData: User): Promise<void>;
 }
@@ -24,6 +25,7 @@ function UserProvider({ children }: UserProviderProps) {
   const [userAlreadyExist, setUserAlreadyExist] = useState(false);
   const [user, setUser] = useState({} as User);
   const [loading, setLoading] = useState(true);
+  const [awaitUser, setAwaitUser] = useState(true);
 
   const dataKey = '@savepass:user';
 
@@ -42,17 +44,18 @@ function UserProvider({ children }: UserProviderProps) {
 
   async function setUserUpdate(userData: User) {
     try {
-      setLoading(true);
+      setAwaitUser(true);
       await AsyncStorage.setItem(dataKey, JSON.stringify(userData));
     } catch {
       console.log("Não foi possível atualizar as informações do usuário!");
     } finally {
-      setLoading(false);
+      setAwaitUser(false);
     }
   }
 
   async function checkUser() {
     try {
+      setLoading(true);
       const userStored = await AsyncStorage.getItem(dataKey);
       if (userStored) {
         setUserAlreadyExist(true);
@@ -73,6 +76,7 @@ function UserProvider({ children }: UserProviderProps) {
       userAlreadyExist,
       user,
       loading,
+      awaitUser,
       getUser,
       setUserUpdate
     }}>
