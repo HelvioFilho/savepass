@@ -35,7 +35,7 @@ export function Home() {
   const [searchText, setSearchText] = useState('');
   const [searchListData, setSearchListData] = useState<LoginListDataProps>([]);
   const [data, setData] = useState<LoginListDataProps>([]);
-  const { user, loading, getUser } = userRoot();
+  const { user, loading, getUser, setUserUpdate, awaitUser } = userRoot();
 
   async function loadData() {
     const dataKey = '@savepass:logins';
@@ -87,11 +87,16 @@ export function Home() {
 
     if (!result.cancelled) {
       // setImage(result.uri);
+      await setUserUpdate({ name: user.name, avatar_url: result.uri });
     }
   }
 
+  async function handleChangeInfo() {
+    const dataKey = '@savepass:user';
+    await AsyncStorage.setItem(dataKey, '');
+  }
+
   useFocusEffect(useCallback(() => {
-    // loadUser();
     loadData();
   }, []));
 
@@ -103,11 +108,19 @@ export function Home() {
     }
   }, [loading]);
 
+  useEffect(() => {
+    if (!awaitUser) {
+      getUser();
+    }
+
+  }, [awaitUser])
+
   return (
     <>
       <Header
         user={user}
         changeImage={handleChangeImage}
+        changeInfo={handleChangeInfo}
       />
 
       <Container>

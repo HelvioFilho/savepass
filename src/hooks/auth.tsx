@@ -31,14 +31,14 @@ function UserProvider({ children }: UserProviderProps) {
 
   async function getUser() {
     try {
-      setLoading(true);
+      setAwaitUser(true);
       const response = await AsyncStorage.getItem(dataKey);
       const userData: User = response ? JSON.parse(response) : {};
       setUser(userData);
     } catch {
       console.log("Não foi possível recuperar as informações do usuário!");
     } finally {
-      setLoading(false);
+      setAwaitUser(false);
     }
   }
 
