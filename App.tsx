@@ -1,7 +1,6 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 
-import AppLoading from 'expo-app-loading';
 import {
   useFonts,
   Rubik_300Light,
@@ -10,6 +9,7 @@ import {
 } from '@expo-google-fonts/rubik';
 import { Routes } from './src/routes';
 import { UserProvider } from './src/hooks/auth';
+import { Loading } from './src/components/Loading';
 
 
 export default function App() {
@@ -20,7 +20,7 @@ export default function App() {
   });
 
   if (!fontsLoaded) {
-    return <AppLoading />
+    return <Loading />;
   }
 
   return (

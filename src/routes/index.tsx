@@ -4,12 +4,12 @@ import { StatusBar } from 'react-native';
 
 import { AppRoutes } from './app.routes';
 import { userRoot } from '../hooks/auth';
-import AppLoading from 'expo-app-loading';
+import { Loading } from '../components/Loading';
 
 export function Routes() {
   const { userAlreadyExist, loading } = userRoot();
   if (loading) {
-    return <AppLoading />
+    return <Loading />;
   }
   return (
     <NavigationContainer>
