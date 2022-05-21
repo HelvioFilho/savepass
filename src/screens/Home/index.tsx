@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
@@ -39,7 +39,7 @@ export function Home() {
   const [searchText, setSearchText] = useState('');
   const [searchListData, setSearchListData] = useState<LoginListDataProps>([]);
   const [data, setData] = useState<LoginListDataProps>([]);
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
 
   const { user, loading, getUser, setUserUpdate, awaitUser } = userRoot();
 
@@ -92,24 +92,21 @@ export function Home() {
     }) as ImageProps;
 
     if (!result.cancelled) {
-      // setImage(result.uri);
       await setUserUpdate({ name: user.name, avatar_url: result.uri });
     }
   }
 
-  async function handleChangeInfo() {
-    const dataKey = '@savepass:user';
-    await AsyncStorage.setItem(dataKey, '');
+  async function handleCloseModal() {
+    setVisible(false);
   }
 
   async function handleChangeName(form: Partial<DataForm>) {
     setVisible(false);
-    console.log(form.name);
-    // const userData = {
-    //   name: form.name,
-    //   avatar_url: user.avatar_url
-    // };
-    // await setUserUpdate(userData);
+    const userData = {
+      name: form.name,
+      avatar_url: user.avatar_url
+    };
+    await setUserUpdate(userData);
   }
 
   useFocusEffect(useCallback(() => {
@@ -136,7 +133,7 @@ export function Home() {
       <Header
         user={user}
         changeImage={handleChangeImage}
-        changeInfo={handleChangeInfo}
+        changeInfo={() => setVisible(true)}
       />
 
       <Container>
@@ -159,7 +156,6 @@ export function Home() {
             }
           </TotalPassCount>
         </Metadata>
-
         <LoginList
           keyExtractor={(item) => item.id}
           data={searchListData}
@@ -172,11 +168,14 @@ export function Home() {
           }}
         />
         <Modal
-          animationType="slide"
+          animationType="fade"
+          transparent
           visible={visible}
+          onRequestClose={() => setVisible(false)}
         >
           <InputModal
             changeName={handleChangeName}
+            closeModal={handleCloseModal}
           />
         </Modal>
       </Container>
