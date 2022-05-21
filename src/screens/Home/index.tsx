@@ -40,8 +40,9 @@ export function Home() {
   const [searchListData, setSearchListData] = useState<LoginListDataProps>([]);
   const [data, setData] = useState<LoginListDataProps>([]);
   const [visible, setVisible] = useState(false);
+  const [awaitUser, setAwaitUser] = useState(true);
 
-  const { user, loading, getUser, setUserUpdate, awaitUser } = userRoot();
+  const { user, loading, getUser, setUserUpdate } = userRoot();
 
   async function loadData() {
     const dataKey = '@savepass:logins';
@@ -84,15 +85,21 @@ export function Home() {
   }
 
   async function SaveImage() {
+    setAwaitUser(true);
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     }) as ImageProps;
-
-    if (!result.cancelled) {
-      await setUserUpdate({ name: user.name, avatar_url: result.uri });
+    try {
+      if (!result.cancelled) {
+        await setUserUpdate({ name: user.name, avatar_url: result.uri });
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setAwaitUser(false);
     }
   }
 
@@ -102,11 +109,19 @@ export function Home() {
 
   async function handleChangeName(form: Partial<DataForm>) {
     setVisible(false);
+    setAwaitUser(true);
     const userData = {
-      name: form.name,
+      name: form.name.trim(),
       avatar_url: user.avatar_url
     };
-    await setUserUpdate(userData);
+    try {
+      await setUserUpdate(userData);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setAwaitUser(false);
+    }
+
   }
 
   useFocusEffect(useCallback(() => {
@@ -119,14 +134,15 @@ export function Home() {
         getUser();
       }
     }
+    console.log("loading");
   }, [loading]);
 
   useEffect(() => {
     if (!awaitUser) {
       getUser();
     }
-
-  }, [awaitUser])
+    console.log("update");
+  }, [awaitUser]);
 
   return (
     <>

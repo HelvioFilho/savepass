@@ -34,7 +34,7 @@ interface DataForm {
 
 export function Welcome() {
   const [image, setImage] = useState(null);
-  const { setUserUpdate, awaitUser } = userRoot();
+  const { setUserUpdate } = userRoot();
   const { navigate } = useNavigation();
 
   const schema = Yup.object().shape({
@@ -78,17 +78,17 @@ export function Welcome() {
   async function handleRegister(form: Partial<DataForm>) {
     const avatar_url = image ? image : `https://ui-avatars.com/api/?background=0D8ABC&color=fff&name=${form.name}&length=1`;
     const userData = {
-      name: form.name,
+      name: form.name.trim(),
       avatar_url,
     };
-    await setUserUpdate(userData);
-  }
-
-  useEffect(() => {
-    if (!awaitUser) {
+    try {
+      await setUserUpdate(userData);
+    } catch (err) {
+      return false;
+    } finally {
       navigate('Home');
     }
-  }, [awaitUser]);
+  }
 
   return (
     <Container>
