@@ -7,7 +7,7 @@ import { userRoot } from '../hooks/auth';
 import { Loading } from '../components/Loading';
 
 export function Routes() {
-  const { userAlreadyExist, loading } = userRoot();
+  const { loading } = userRoot();
   if (loading) {
     return <Loading />;
   }
@@ -18,7 +18,7 @@ export function Routes() {
         backgroundColor="transparent"
         translucent
       />
-      <AppRoutes mainRoute={userAlreadyExist} />
+      <AppRoutes />
     </NavigationContainer>
   );
 }
