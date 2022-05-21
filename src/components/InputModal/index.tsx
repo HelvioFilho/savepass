@@ -10,8 +10,12 @@ import {
   Title,
   Button,
   TitleButton,
-  Icon
+  Icon,
+  Transparency,
+  ButtonX,
+  IconX,
 } from './styles';
+import { TouchableWithoutFeedback } from 'react-native';
 
 interface DataForm {
   name: string;
@@ -19,9 +23,10 @@ interface DataForm {
 
 interface ModalProps {
   changeName: (form: Partial<DataForm>) => void;
+  closeModal: () => void;
 }
 
-export function InputModal({ changeName }: ModalProps) {
+export function InputModal({ changeName, closeModal }: ModalProps) {
 
   const schema = Yup.object().shape({
     name: Yup
@@ -37,32 +42,45 @@ export function InputModal({ changeName }: ModalProps) {
     resolver: yupResolver(schema)
   });
 
-
-
   return (
-    <Container>
-      <FieldContainer>
-        <Title>Qual o seu nome?</Title>
-        <InputWelcome
-          name="name"
-          control={control}
-          error={errors.name && errors.name.message}
-          placeholder="Coloque o seu nome!"
-        />
-      </FieldContainer>
-      <Button
-        activeOpacity={0.8}
-        onPress={handleSubmit(changeName)}
-      >
-        <TitleButton>
-          Prosseguir
-        </TitleButton>
-        <Icon
-          name="md-arrow-forward-circle-outline"
-          size={24}
-          color="#ffffff"
-        />
-      </Button>
-    </Container>
+    <>
+      <TouchableWithoutFeedback onPress={closeModal}>
+        <Transparency />
+      </TouchableWithoutFeedback>
+      <Container>
+        <ButtonX
+          activeOpacity={0.8}
+          onPress={closeModal}
+        >
+          <IconX
+            name="md-close-circle-outline"
+            size={40}
+            color="#ffffff"
+          />
+        </ButtonX>
+        <FieldContainer>
+          <Title>Entre com o novo nome:</Title>
+          <InputWelcome
+            name="name"
+            control={control}
+            error={errors.name && errors.name.message}
+            placeholder="Coloque o seu nome!"
+          />
+        </FieldContainer>
+        <Button
+          activeOpacity={0.8}
+          onPress={handleSubmit(changeName)}
+        >
+          <TitleButton>
+            Prosseguir
+          </TitleButton>
+          <Icon
+            name="md-arrow-forward-circle-outline"
+            size={24}
+            color="#ffffff"
+          />
+        </Button>
+      </Container>
+    </>
   );
 }

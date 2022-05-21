@@ -3,17 +3,18 @@ import { Ionicons } from '@expo/vector-icons';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 
 export const Container = styled.View`
-  flex: 1;
   justify-content: center;
   align-items: center;
   width: 100%;
+  flex: 2;
+  background-color: #508bfc;
 `;
 
 export const FieldContainer = styled.View`
   width: 100%;
   justify-content: center;
   align-items: center;
-  margin-bottom: ${RFPercentage(5)}px;
+  margin-bottom: ${RFValue(5)}px;
 `;
 
 export const Title = styled.Text`
@@ -26,13 +27,13 @@ export const Title = styled.Text`
 
 export const Button = styled.TouchableOpacity`
   padding: ${RFValue(10)}px ${RFValue(20)}px;
-  background-color: #508bfc;
+  border-width: 1.5px;
+  border-color: #ffffff;
   border-radius: ${RFValue(15)}px;
   flex-direction: row;
   align-items: center;
   width: ${RFValue(200)}px;
   justify-content: center;
-  margin-top: ${RFValue(50)}px;
 `;
 
 export const TitleButton = styled.Text`
@@ -44,16 +45,20 @@ export const TitleButton = styled.Text`
 
 export const Icon = styled(Ionicons)``;
 
-export const AddButton = styled.TouchableOpacity`
-  width: ${RFValue(60)}px;
-  height: ${RFValue(60)}px;
-  border: 1.5px #e3e4e5;
-  border-radius: 4px;
-  justify-content: center;
-  align-items: center;
+export const ButtonX = styled.TouchableOpacity`
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  padding: 10px;
 `;
 
-export const Avatar = styled.Image`
-  width: ${RFValue(56)}px;
-  height: ${RFValue(56)}px;
+export const IconX = styled(Ionicons)`
+  
+`;
+
+export const Transparency = styled.View`
+  width: 100%;
+  height: auto;
+  flex: 1;
+  background-color: rgba(0,0,0,0.4);
 `;
