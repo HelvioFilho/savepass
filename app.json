@@ -18,6 +18,11 @@
         "backgroundColor": "#E5E5E5"
       }
     },
+    "ios": {
+      "infoPlist": {
+        "NSFaceIDUsageDescription": "O Face ID será usado para autenticação!"
+      }
+    },
     "plugins": [
       [
         "expo-image-picker",
