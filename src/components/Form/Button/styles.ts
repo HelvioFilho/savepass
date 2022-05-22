@@ -9,6 +9,8 @@ export const Container = styled(TouchableOpacity)`
   align-items: center;
   justify-content: center;
   border-radius: 4px;
+
+  flex-direction: row;
 `;
 export const ButtonText = styled.Text`
   font-family: 'Rubik_500Medium';
