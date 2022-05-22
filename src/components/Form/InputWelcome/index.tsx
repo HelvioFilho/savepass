@@ -7,7 +7,6 @@ import {
   Error,
   InputContainer,
   FormInput,
-  ErrorColor,
 } from './styles';
 
 interface Props extends TextInputProps {

@@ -15,9 +15,6 @@ export const Error = styled.Text`
   color: yellow;
 `;
 
-export const ErrorColor = styled.Text`
-  
-`;
 export const InputContainer = styled.View`
   flex-direction: row;
   align-items: center;
@@ -29,7 +26,7 @@ export const InputContainer = styled.View`
 
 export const FormInput = styled(TextInput)`
   font-size: ${RFValue(15)}px;
-  color: #3D434D;
+  color: #508bfc;
   font-family: 'Rubik_400Regular';
   font-size: 15px;
   padding: 0 20px;
