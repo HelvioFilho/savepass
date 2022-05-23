@@ -103,10 +103,6 @@ export function Home() {
     }
   }
 
-  async function handleCloseModal() {
-    setVisible(false);
-  }
-
   async function handleChangeName(form: Partial<DataForm>) {
     setVisible(false);
     setAwaitUser(true);
@@ -124,24 +120,22 @@ export function Home() {
 
   }
 
+  function getUserRook() {
+    getUser().then();
+  }
+
   useFocusEffect(useCallback(() => {
     loadData();
   }, []));
 
   useEffect(() => {
-    if (!loading) {
-      if (!user.name) {
-        getUser();
-      }
-    }
-    console.log("loading");
-  }, [loading]);
+    getUserRook();
+  }, []);
 
   useEffect(() => {
     if (!awaitUser) {
-      getUser();
+      getUserRook();
     }
-    console.log("update");
   }, [awaitUser]);
 
   return (
@@ -151,7 +145,6 @@ export function Home() {
         changeImage={handleChangeImage}
         changeInfo={() => setVisible(true)}
       />
-
       <Container>
         <SearchBar
           placeholder="Qual senha você procura?"
@@ -191,7 +184,7 @@ export function Home() {
         >
           <InputModal
             changeName={handleChangeName}
-            closeModal={handleCloseModal}
+            closeModal={() => setVisible(false)}
           />
         </Modal>
       </Container>
