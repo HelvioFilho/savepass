@@ -15,7 +15,7 @@ import {
   ButtonX,
   IconX,
 } from './styles';
-import { TouchableWithoutFeedback } from 'react-native';
+import { Keyboard, KeyboardAvoidingView, Platform, TouchableWithoutFeedback } from 'react-native';
 
 interface DataForm {
   name: string;
@@ -47,40 +47,47 @@ export function InputModal({ changeName, closeModal }: ModalProps) {
       <TouchableWithoutFeedback onPress={closeModal}>
         <Transparency />
       </TouchableWithoutFeedback>
-      <Container>
-        <ButtonX
-          activeOpacity={0.8}
-          onPress={closeModal}
-        >
-          <IconX
-            name="md-close-circle-outline"
-            size={40}
-            color="#ffffff"
-          />
-        </ButtonX>
-        <FieldContainer>
-          <Title>Entre com o novo nome:</Title>
-          <InputWelcome
-            name="name"
-            control={control}
-            error={errors.name && errors.name.message}
-            placeholder="Coloque o seu nome!"
-          />
-        </FieldContainer>
-        <Button
-          activeOpacity={0.8}
-          onPress={handleSubmit(changeName)}
-        >
-          <TitleButton>
-            Prosseguir
-          </TitleButton>
-          <Icon
-            name="md-arrow-forward-circle-outline"
-            size={24}
-            color="#ffffff"
-          />
-        </Button>
-      </Container>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={{ flex: 2 }}
+      >
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+          <Container>
+            <ButtonX
+              activeOpacity={0.8}
+              onPress={closeModal}
+            >
+              <IconX
+                name="md-close-circle-outline"
+                size={40}
+                color="#ffffff"
+              />
+            </ButtonX>
+            <FieldContainer>
+              <Title>Entre com o novo nome:</Title>
+              <InputWelcome
+                name="name"
+                control={control}
+                error={errors.name && errors.name.message}
+                placeholder="Coloque o seu nome!"
+              />
+            </FieldContainer>
+            <Button
+              activeOpacity={0.8}
+              onPress={handleSubmit(changeName)}
+            >
+              <TitleButton>
+                Prosseguir
+              </TitleButton>
+              <Icon
+                name="md-arrow-forward-circle-outline"
+                size={24}
+                color="#ffffff"
+              />
+            </Button>
+          </Container>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     </>
   );
 }
