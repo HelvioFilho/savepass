@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import * as ImagePicker from 'expo-image-picker';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -6,8 +6,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Container,
   Title,
-  // Button,
-  // TitleButton,
   Icon,
   ContainerTop,
   FieldContainer,
@@ -17,7 +15,14 @@ import {
 } from './styles';
 
 import Logo from '../../assets/logo.svg';
-import { Alert, Platform } from 'react-native';
+import {
+  Alert,
+  Keyboard,
+  KeyboardAvoidingView,
+  Platform,
+  StatusBar,
+  TouchableWithoutFeedback
+} from 'react-native';
 import { useForm } from 'react-hook-form';
 import { InputWelcome } from '../../components/Form/InputWelcome';
 import { useNavigation } from '@react-navigation/native';
@@ -93,54 +98,66 @@ export function Welcome() {
   }
 
   return (
-    <Container>
-      <ContainerTop>
-        <Logo
-          width="200"
-          height="150"
-        />
-        <FieldContainer>
-          <Title>Qual o seu nome?</Title>
-          <InputWelcome
-            name="name"
-            control={control}
-            error={errors.name && errors.name.message}
-            placeholder="Coloque o seu nome!"
-            placeholderTextColor="#7D7D7D"
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={{ flex: 1 }}
+    >
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <Container>
+          <StatusBar
+            barStyle="dark-content"
+            backgroundColor="transparent"
+            translucent
           />
-          <Title>Deseja adicionar uma foto? (opcional)</Title>
-          <AddButton
-            onPress={CheckOSPermission}
+          <ContainerTop>
+            <Logo
+              width="200"
+              height="150"
+            />
+          </ContainerTop>
+          <FieldContainer>
+            <Title>Qual o seu nome?</Title>
+            <InputWelcome
+              name="name"
+              control={control}
+              error={errors.name && errors.name.message}
+              placeholder="Coloque o seu nome!"
+              placeholderTextColor="#7D7D7D"
+            />
+            <Title>Deseja adicionar uma foto? (opcional)</Title>
+            <AddButton
+              onPress={CheckOSPermission}
+              activeOpacity={0.8}
+            >
+              {image ?
+                <Avatar source={{ uri: image }} />
+                :
+                <IconPlus
+                  name="plus"
+                  color="#FFFFFF"
+                  size={24}
+                />
+              }
+            </AddButton>
+          </FieldContainer>
+          <Button
             activeOpacity={0.8}
+            onPress={handleSubmit(handleRegister)}
+            title="Prosseguir"
+            style={{
+              width: RFValue(200),
+              marginTop: RFValue(70),
+            }}
           >
-            {image ?
-              <Avatar source={{ uri: image }} />
-              :
-              <IconPlus
-                name="plus"
-                color="#FFFFFF"
-                size={24}
-              />
-            }
-          </AddButton>
-        </FieldContainer>
-      </ContainerTop>
-      <Button
-        activeOpacity={0.8}
-        onPress={handleSubmit(handleRegister)}
-        title="Prosseguir"
-        style={{
-          width: RFValue(200),
-          marginTop: RFValue(50),
-        }}
-      >
-        <Icon
-          name="md-arrow-forward-circle-outline"
-          size={24}
-          color="#3D434D"
-          style={{ marginLeft: 5 }}
-        />
-      </Button>
-    </Container>
+            <Icon
+              name="md-arrow-forward-circle-outline"
+              size={24}
+              color="#3D434D"
+              style={{ marginLeft: 5 }}
+            />
+          </Button>
+        </Container>
+      </TouchableWithoutFeedback>
+    </KeyboardAvoidingView>
   );
 }

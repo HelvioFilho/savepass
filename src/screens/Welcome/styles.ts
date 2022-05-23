@@ -5,22 +5,23 @@ import styled from 'styled-components/native';
 export const Container = styled.View`
   flex: 1;
   align-items: center;
+  background-color: #508bfc;
 `;
 
 export const ContainerTop = styled.View`
   width: 100%;
-  height: 75%;
+  height: 35%;
   justify-content: space-around;
   align-items: center;
-  background-color: #508bfc;
-  padding-top: ${RFPercentage(20)}px;
+  background-color: #F2F3F5;
+  padding-top: ${RFPercentage(3)}px;
+  margin-bottom: 25px;
 `;
 
 export const FieldContainer = styled.View`
   width: 100%;
   justify-content: center;
   align-items: center;
-  margin-bottom: ${RFPercentage(5)}px;
 `;
 
 export const Title = styled.Text`
@@ -28,7 +29,7 @@ export const Title = styled.Text`
   line-height: ${RFValue(26)}px;
   font-family: 'Rubik_300Light';
   color: #ffffff;
-  margin-bottom: ${RFValue(8)}px;
+  margin-bottom: 5px;
 `;
 
 export const Icon = styled(Ionicons)``;
@@ -40,6 +41,7 @@ export const AddButton = styled.TouchableOpacity`
   border-radius: 4px;
   justify-content: center;
   align-items: center;
+  margin-top: 5px;
 `;
 
 export const Avatar = styled.Image`
