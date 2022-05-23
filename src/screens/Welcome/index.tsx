@@ -6,8 +6,8 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import {
   Container,
   Title,
-  Button,
-  TitleButton,
+  // Button,
+  // TitleButton,
   Icon,
   ContainerTop,
   FieldContainer,
@@ -22,6 +22,8 @@ import { useForm } from 'react-hook-form';
 import { InputWelcome } from '../../components/Form/InputWelcome';
 import { useNavigation } from '@react-navigation/native';
 import { userRoot } from '../../hooks/auth';
+import { Button } from '../../components/Form/Button';
+import { RFValue } from 'react-native-responsive-fontsize';
 
 interface ImageProps {
   uri: string;
@@ -104,6 +106,7 @@ export function Welcome() {
             control={control}
             error={errors.name && errors.name.message}
             placeholder="Coloque o seu nome!"
+            placeholderTextColor="#7D7D7D"
           />
           <Title>Deseja adicionar uma foto? (opcional)</Title>
           <AddButton
@@ -125,14 +128,17 @@ export function Welcome() {
       <Button
         activeOpacity={0.8}
         onPress={handleSubmit(handleRegister)}
+        title="Prosseguir"
+        style={{
+          width: RFValue(200),
+          marginTop: RFValue(50),
+        }}
       >
-        <TitleButton>
-          Prosseguir
-        </TitleButton>
         <Icon
           name="md-arrow-forward-circle-outline"
           size={24}
-          color="#ffffff"
+          color="#3D434D"
+          style={{ marginLeft: 5 }}
         />
       </Button>
     </Container>

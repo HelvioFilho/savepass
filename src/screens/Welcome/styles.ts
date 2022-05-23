@@ -31,24 +31,6 @@ export const Title = styled.Text`
   margin-bottom: ${RFValue(8)}px;
 `;
 
-export const Button = styled.TouchableOpacity`
-  padding: ${RFValue(10)}px ${RFValue(20)}px;
-  background-color: #508bfc;
-  border-radius: ${RFValue(15)}px;
-  flex-direction: row;
-  align-items: center;
-  width: ${RFValue(200)}px;
-  justify-content: center;
-  margin-top: ${RFValue(50)}px;
-`;
-
-export const TitleButton = styled.Text`
-  font-size: ${RFValue(16)}px;
-  font-family: 'Rubik_500Medium';
-  color: #ffffff;
-  margin-right: ${RFValue(5)}px;
-`;
-
 export const Icon = styled(Ionicons)``;
 
 export const AddButton = styled.TouchableOpacity`
