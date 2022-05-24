@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
+import { Feather } from '@expo/vector-icons';
+import { TouchableOpacity } from 'react-native';
 
 import {
   Container,
@@ -11,17 +14,22 @@ import {
   BoldTitle,
   Email,
 } from './styles';
+import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 
 interface Props {
   service_name: string;
   email: string;
   password: string;
+  id: string;
+  deleteLoginData: (id: string) => void;
 }
 
 export function LoginDataItem({
   service_name,
   email,
-  password
+  password,
+  id,
+  deleteLoginData
 }: Props) {
   const [passIsVisible, setPassIsVisible] = useState(false);
 
@@ -29,38 +37,66 @@ export function LoginDataItem({
     setPassIsVisible(!passIsVisible);
   }
 
-  return (
-    <Container
-      colors={[
-        passIsVisible
-          ? '#EBF2FF'
-          : '#ffffff',
-        '#ffffff'
-      ]}
-    >
-      <ShowPasswordButton
-        onPress={handleTogglePassIsVisible}
+  function RightActions() {
+    return (
+      <TouchableOpacity
+        style={{
+          position: 'relative',
+          top: 8.5,
+          left: 10,
+          width: RFPercentage(10),
+          height: RFValue(65),
+          borderTopRightRadius: 7,
+          borderBottomRightRadius: 7,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: 'red',
+        }}
+        onPress={() => deleteLoginData(id)}
       >
-        <Icon
-          name={passIsVisible ? "eye" : "eye-off"}
-          color={passIsVisible ? '#1967FB' : '#888D97'}
+        <Feather
+          name="trash"
+          color="white"
+          size={28}
         />
-      </ShowPasswordButton>
+      </TouchableOpacity>
+    );
+  }
 
-      {passIsVisible
-        ? (
-          <PassData>
-            <Title>{service_name}</Title>
-            <Password>{password}</Password>
-          </PassData>
-        )
-        : (
-          <LoginData>
-            <BoldTitle>{service_name}</BoldTitle>
-            <Email>{email}</Email>
-          </LoginData>
-        )
-      }
-    </Container>
+  return (
+    <Swipeable renderRightActions={RightActions}>
+      <Container
+        colors={[
+          passIsVisible
+            ? '#EBF2FF'
+            : '#ffffff',
+          '#ffffff'
+        ]}
+      >
+        <ShowPasswordButton
+          onPress={handleTogglePassIsVisible}
+        >
+          <Icon
+            name={passIsVisible ? "eye" : "eye-off"}
+            color={passIsVisible ? '#1967FB' : '#888D97'}
+          />
+        </ShowPasswordButton>
+
+        {passIsVisible
+          ? (
+            <PassData>
+              <Title>{service_name}</Title>
+              <Password>{password}</Password>
+            </PassData>
+          )
+          : (
+            <LoginData>
+              <BoldTitle>{service_name}</BoldTitle>
+              <Email>{email}</Email>
+            </LoginData>
+          )
+        }
+      </Container>
+    </Swipeable>
   );
 }
