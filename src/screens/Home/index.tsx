@@ -41,17 +41,30 @@ export function Home() {
   const [data, setData] = useState<LoginListDataProps>([]);
   const [visible, setVisible] = useState(false);
   const [awaitUser, setAwaitUser] = useState(true);
+  const [updateData, setUpdateData] = useState(false);
 
   const { user, loading, getUser, setUserUpdate } = userRoot();
+  const dataKey = '@savepass:logins';
 
   async function loadData() {
-    const dataKey = '@savepass:logins';
     // Get asyncStorage data, use setSearchListData and setData
     const response = await AsyncStorage.getItem(dataKey);
     const savedData = response ? JSON.parse(response) : [];
     if (savedData.length > 0) {
       setData(savedData);
       setSearchListData(savedData);
+    }
+  }
+
+  async function handleDeleteLoginData(id: string) {
+    const result = data.filter((item) => item.id !== id);
+
+    try {
+      await AsyncStorage.setItem(dataKey, JSON.stringify(result));
+    } catch (error) {
+      Alert.alert("Não foi possível deletar!");
+    } finally {
+      setUpdateData(!updateData);
     }
   }
 
@@ -126,7 +139,7 @@ export function Home() {
 
   useFocusEffect(useCallback(() => {
     loadData();
-  }, []));
+  }, [updateData]));
 
   useEffect(() => {
     getUserRook();
@@ -172,7 +185,9 @@ export function Home() {
             return <LoginDataItem
               service_name={loginData.service_name}
               email={loginData.email}
+              id={loginData.id}
               password={loginData.password}
+              deleteLoginData={handleDeleteLoginData}
             />
           }}
         />
