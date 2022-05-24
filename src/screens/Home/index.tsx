@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect } from '@react-navigation/native';
 import * as ImagePicker from 'expo-image-picker';
@@ -17,6 +17,7 @@ import {
 } from './styles';
 import { userRoot } from '../../hooks/auth';
 import { InputModal } from '../../components/InputModal';
+import { WarningModal } from '../../components/WarningModal';
 
 interface LoginDataProps {
   id: string;
@@ -39,11 +40,13 @@ export function Home() {
   const [searchText, setSearchText] = useState('');
   const [searchListData, setSearchListData] = useState<LoginListDataProps>([]);
   const [data, setData] = useState<LoginListDataProps>([]);
+  const [deleteId, setDeleteId] = useState('');
   const [visible, setVisible] = useState(false);
   const [awaitUser, setAwaitUser] = useState(true);
   const [updateData, setUpdateData] = useState(false);
+  const [deleteData, setDeleteData] = useState(false);
 
-  const { user, loading, getUser, setUserUpdate } = userRoot();
+  const { user, getUser, setUserUpdate } = userRoot();
   const dataKey = '@savepass:logins';
 
   async function loadData() {
@@ -56,16 +59,25 @@ export function Home() {
     }
   }
 
-  async function handleDeleteLoginData(id: string) {
-    const result = data.filter((item) => item.id !== id);
-
-    try {
-      await AsyncStorage.setItem(dataKey, JSON.stringify(result));
-    } catch (error) {
-      Alert.alert("Não foi possível deletar!");
-    } finally {
-      setUpdateData(!updateData);
+  async function deleteLoginData() {
+    if (!!deleteId) {
+      const result = data.filter((item) => item.id !== deleteId);
+      try {
+        await AsyncStorage.setItem(dataKey, JSON.stringify(result));
+      } catch (error) {
+        Alert.alert("Não foi possível deletar!");
+      } finally {
+        setUpdateData(!updateData);
+        setVisible(false);
+        setDeleteData(false);
+      }
     }
+  }
+
+  function handleDeleteLoginData(id: string) {
+    setDeleteId(id);
+    setDeleteData(true);
+    setVisible(true);
   }
 
   function handleFilterLoginData() {
@@ -197,10 +209,31 @@ export function Home() {
           visible={visible}
           onRequestClose={() => setVisible(false)}
         >
-          <InputModal
-            changeName={handleChangeName}
-            closeModal={() => setVisible(false)}
-          />
+          {
+            deleteData ?
+              <WarningModal
+                message={`Tem certeza que deseja apagar a senha?${'\n'} Essa ação não pode ser desfeita!`}
+                button={[
+                  {
+                    title: "Cancelar",
+                    color: "#32936F",
+                    close: true,
+                  },
+                  {
+                    title: "Apagar",
+                    color: "#DB2727",
+                    close: false,
+                  },
+                ]}
+                closeModal={() => { setVisible(false); setDeleteData(false) }}
+                primaryFunction={deleteLoginData}
+              />
+              :
+              <InputModal
+                changeName={handleChangeName}
+                closeModal={() => setVisible(false)}
+              />
+          }
         </Modal>
       </Container>
     </>
