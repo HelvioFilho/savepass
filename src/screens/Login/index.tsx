@@ -1,8 +1,7 @@
-import React, { useCallback, useState } from 'react';
-import { Alert, Modal, Platform, StatusBar } from 'react-native';
+import React, { useState } from 'react';
+import { Modal, Platform, StatusBar, Linking } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-import * as Linking from 'expo-linking';
 import * as LocalAuthentication from "expo-local-authentication";
 
 import Logo from '../../assets/logo.svg';
@@ -19,54 +18,51 @@ import { userRoot } from '../../hooks/auth';
 import { Button } from '../../components/Form/Button';
 import { RFValue } from 'react-native-responsive-fontsize';
 import { WarningModal } from '../../components/WarningModal';
-import SendIntentAndroid from 'react-native-send-intent';
+import { ActivityAction, startActivityAsync } from 'expo-intent-launcher';
 
 export function Login() {
   const [visible, setVisible] = useState(false);
   const { userAlreadyExist } = userRoot();
   const { navigate } = useNavigation();
 
-  const handleSettings = useCallback(async () => {
-    try {
-      // await Linking.sendIntent('android.intent.settings.ACTION_BIOMETRIC_ENROLL');
-      await SendIntentAndroid.openSettings('android.settings.SECURITY_SETTINGS');
-    } catch (err) {
-      console.log(err)
-    }
-  }, [])
 
-  // async function handleSettings() {
-  //   if (Platform.OS !== 'ios') {
-  //     await Linking.sendIntent('android.intent.action.POWER_USAGE_SUMMARY');
-  //   } else {
-  //     await Linking.openURL('App-Prefs:');
-  //   }
-  // }
+
+  async function handleSettings() {
+    try {
+      if (Platform.OS !== 'ios') {
+        await startActivityAsync(ActivityAction.SETTINGS);
+      } else {
+        await Linking.openURL('App-Prefs:');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   async function handleBiometricAuth() {
-    setVisible(true);
-    // try {
-    //   const trigger = await LocalAuthentication.getEnrolledLevelAsync();
-    //   if (trigger === 0) {
-    //     Alert.alert("Atenção", "Seu celular precisa de uma senha pin ou padrão para utilizar esse aplicativo!")
-    //     return false;
-    //   }
 
-    //   const biometricAuth = await LocalAuthentication.authenticateAsync({
-    //     promptMessage: 'Entrar usando a biometria?',
-    //     fallbackLabel: 'Entre com a senha',
-    //   });
+    try {
+      const trigger = await LocalAuthentication.getEnrolledLevelAsync();
+      if (trigger === 0) {
+        setVisible(true);
+        return false;
+      }
 
-    //   if (biometricAuth.success) {
-    //     if (userAlreadyExist) {
-    //       navigate('Home');
-    //     } else {
-    //       navigate('Welcome');
-    //     }
-    //   }
-    // } catch (error) {
-    //   console.log(error);
-    // }
+      const biometricAuth = await LocalAuthentication.authenticateAsync({
+        promptMessage: 'Entrar usando a biometria?',
+        fallbackLabel: 'Entre com a senha',
+      });
+
+      if (biometricAuth.success) {
+        if (userAlreadyExist) {
+          navigate('Home');
+        } else {
+          navigate('Welcome');
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
@@ -113,6 +109,7 @@ export function Login() {
             {
               title: "Opções",
               color: "#FFCC00",
+              textColor: "#3D434D",
               close: false,
             }
           ]}
