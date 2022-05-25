@@ -16,6 +16,7 @@ interface WarningModalProps {
   button: {
     title: string;
     color: string;
+    textColor?: string;
     close: boolean;
   }[];
   closeModal: () => void;
@@ -45,9 +46,12 @@ export function WarningModal({ message, button, closeModal, primaryFunction }: W
                 key={item.title}
                 color={item.color}
                 onPress={item.close ? closeModal : primaryFunction}
-
               >
-                <Title>{item.title}</Title>
+                <Title
+                  textColor={item.textColor ? item.textColor : 'white'}
+                >
+                  {item.title}
+                </Title>
               </Button>
             )
             )

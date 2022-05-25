@@ -10,6 +10,10 @@ interface FooterProps {
   itens: number;
 }
 
+interface TitleProps {
+  textColor: string;
+}
+
 export const Container = styled.View`
   flex: 1;
   height: 100%;
@@ -71,8 +75,8 @@ export const Button = styled.TouchableOpacity<buttonProps>`
   border-radius: 10px;
 `;
 
-export const Title = styled.Text`
+export const Title = styled.Text<TitleProps>`
   font-size: ${RFValue(13)}px;
   
-  color: white;
+  color: ${({ textColor }) => textColor};
 `;
