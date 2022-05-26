@@ -22,7 +22,7 @@ import { WarningModal } from '../../components/WarningModal';
 interface LoginDataProps {
   id: string;
   service_name: string;
-  email: string;
+  userSave: string;
   password: string;
 }
 
@@ -56,6 +56,9 @@ export function Home() {
     if (savedData.length > 0) {
       setData(savedData);
       setSearchListData(savedData);
+    } else {
+      setData([]);
+      setSearchListData([]);
     }
   }
 
@@ -196,7 +199,7 @@ export function Home() {
           renderItem={({ item: loginData }) => {
             return <LoginDataItem
               service_name={loginData.service_name}
-              email={loginData.email}
+              userSave={loginData.userSave}
               id={loginData.id}
               password={loginData.password}
               deleteLoginData={handleDeleteLoginData}

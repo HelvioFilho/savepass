@@ -12,13 +12,13 @@ import {
   Password,
   LoginData,
   BoldTitle,
-  Email,
+  UserSave,
 } from './styles';
 import { RFPercentage, RFValue } from 'react-native-responsive-fontsize';
 
 interface Props {
   service_name: string;
-  email: string;
+  userSave: string;
   password: string;
   id: string;
   deleteLoginData: (id: string) => void;
@@ -26,7 +26,7 @@ interface Props {
 
 export function LoginDataItem({
   service_name,
-  email,
+  userSave,
   password,
   id,
   deleteLoginData
@@ -92,7 +92,7 @@ export function LoginDataItem({
           : (
             <LoginData>
               <BoldTitle>{service_name}</BoldTitle>
-              <Email>{email}</Email>
+              <UserSave>{userSave}</UserSave>
             </LoginData>
           )
         }

@@ -6,7 +6,7 @@ import { RFValue } from 'react-native-responsive-fontsize';
 interface LoginListDataProps {
   id: string;
   service_name: string;
-  email: string;
+  userSave: string;
   password: string;
 }
 

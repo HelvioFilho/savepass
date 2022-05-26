@@ -19,13 +19,13 @@ import {
 
 interface FormData {
   service_name: string;
-  email: string;
+  userSave: string;
   password: string;
 }
 
 const schema = Yup.object().shape({
   service_name: Yup.string().required('Nome do serviço é obrigatório!'),
-  email: Yup.string().email('Não é um email válido').required('Email é obrigatório!'),
+  userSave: Yup.string().required('Usuário é obrigatório!'),
   password: Yup.string().required('Senha é obrigatória!'),
 })
 
@@ -86,12 +86,12 @@ export function RegisterLoginData() {
             autoCorrect
           />
           <Input
-            testID="email-input"
-            title="E-mail"
-            name="email"
+            testID="userSave-input"
+            title="Usuário"
+            name="userSave"
             error={
               // Replace here with real content
-              errors.email && errors.email.message
+              errors.userSave && errors.userSave.message
             }
             control={control}
             autoCorrect={false}

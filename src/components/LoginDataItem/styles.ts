@@ -53,7 +53,7 @@ export const BoldTitle = styled.Text`
   color: #3D434D;
 `;
 
-export const Email = styled.Text`
+export const UserSave = styled.Text`
   font-family: 'Rubik_400Regular';
   font-size: ${RFValue(13)}px;
   color: #888D97;

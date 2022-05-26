@@ -25,8 +25,6 @@ export function Login() {
   const { userAlreadyExist } = userRoot();
   const { navigate } = useNavigation();
 
-
-
   async function handleSettings() {
     try {
       if (Platform.OS !== 'ios') {
